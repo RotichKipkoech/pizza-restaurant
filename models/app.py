@@ -6,3 +6,6 @@ from sqlalchemy import CheckConstraint
 
 # Creating a Flask application instance
 app = Flask(__name__)
+
+# Configuring the database URI
+app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///emp.db'
