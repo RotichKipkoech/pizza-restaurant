@@ -11,3 +11,13 @@ from datetime import datetime
 def get_restaurants():
     restaurants = Restaurant.query.all()
     return jsonify([{'id': r.id, 'name': r.name, 'address': r.address} for r in restaurants])
+
+# Route to get a specific restaurant by ID
+@app.route('/restaurants/<int:id>', methods=['GET'])
+def get_restaurant(id):
+    restaurant = Restaurant.query.get(id)
+    if restaurant is not None:
+        pizzas = [{'id': p.id, 'name': p.name, 'ingredients': p.ingredients} for p in restaurant.pizzas]
+        return jsonify({'id': restaurant.id, 'name': restaurant.name, 'address': restaurant.address, 'pizzas': pizzas})
+    else:
+        return jsonify({'error': 'Restaurant not found'}), 404
