@@ -1,4 +1,5 @@
 # Importing necessary modules
+from sqlite3 import IntegrityError
 from app import app, db
 from app import Restaurant, Pizza, restaurant_pizza
 from flask import request, jsonify
