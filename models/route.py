@@ -21,3 +21,15 @@ def get_restaurant(id):
         return jsonify({'id': restaurant.id, 'name': restaurant.name, 'address': restaurant.address, 'pizzas': pizzas})
     else:
         return jsonify({'error': 'Restaurant not found'}), 404
+    
+# Route to delete a restaurant by ID
+@app.route('/restaurants/<int:id>', methods=['DELETE'])
+def delete_restaurant(id):
+    restaurant = Restaurant.query.get(id)
+    if restaurant is not None:
+        restaurant_pizza.query.filter_by(restaurant_id=id).delete()
+        db.session.delete(restaurant)
+        db.session.commit()
+        return '', 204
+    else:
+        return jsonify({'error': 'Restaurant not found'}), 404
