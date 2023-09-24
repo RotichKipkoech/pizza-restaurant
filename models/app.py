@@ -36,3 +36,7 @@ class restaurant_pizza(db.Model):
     pizza_id = db.Column(db.Integer, db.ForeignKey('pizza.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+# Creating the tables in the database 
+with app.app_context():
+    db.create_all()
