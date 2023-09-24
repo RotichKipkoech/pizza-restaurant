@@ -65,3 +65,7 @@ def create_restaurant_pizza():
     except IntegrityError:
         db.session.rollback()
         return jsonify({'errors': ['RestaurantPizza already exists']}), 400
+    
+# Running the application if executed directly
+if __name__ == '__main__':
+    app.run(debug=True)
