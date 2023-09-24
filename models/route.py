@@ -39,3 +39,29 @@ def delete_restaurant(id):
 def get_pizzas():
     pizzas = Pizza.query.all()
     return jsonify([{'id': p.id, 'name': p.name, 'ingredients': p.ingredients} for p in pizzas])
+
+# Route to create a new RestaurantPizza
+@app.route('/restaurant_pizzas', methods=['POST'])
+def create_restaurant_pizza():
+    data = request.get_json()
+    price = data.get('price')
+    pizza_id = data.get('pizza_id')
+    restaurant_id = data.get('restaurant_id')
+
+    if not (price and 1 <= price <= 30 and pizza_id and restaurant_id):
+        return jsonify({'errors': ['Validation errors']}), 400
+
+    restaurant = Restaurant.query.get(restaurant_id)
+    pizza = Pizza.query.get(pizza_id)
+
+    if restaurant is None or pizza is None:
+        return jsonify({'errors': ['Invalid pizza or restaurant ID']}), 400
+
+    try:
+        restaurant_pizza = restaurant_pizza(price=price, restaurant=restaurant, pizza=pizza)
+        db.session.add(restaurant_pizza)
+        db.session.commit()
+        return jsonify({'id': pizza.id, 'name': pizza.name, 'ingredients': pizza.ingredients}), 201
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({'errors': ['RestaurantPizza already exists']}), 400
