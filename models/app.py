@@ -9,3 +9,6 @@ app = Flask(__name__)
 
 # Configuring the database URI
 app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///emp.db'
+
+# Creating a SQLAlchemy instance and binding it to the Flask app
+db = SQLAlchemy(app)
