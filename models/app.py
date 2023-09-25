@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, make_response
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import CheckConstraint
+from sqlalchemy import Date
 
 # Creating a Flask application instance
 app = Flask(__name__)
@@ -25,8 +26,8 @@ class Pizza(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     ingredients = db.Column(db.String(255), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(Date, default=datetime.now().date)
+    updated_at = db.Column(Date, default=datetime.now().date)
 
 # Defining the restaurant_pizza model
 class restaurant_pizza(db.Model):
@@ -34,8 +35,8 @@ class restaurant_pizza(db.Model):
     price = db.Column(db.Integer, nullable=False)
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
     pizza_id = db.Column(db.Integer, db.ForeignKey('pizza.id'), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(Date, default=datetime.now().date)
+    updated_at = db.Column(Date, default=datetime.now().date)
 
 # Creating the tables in the database 
 with app.app_context():
